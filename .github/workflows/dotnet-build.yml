@@ -1,4 +1,4 @@
-name: .NET Build CI
+name: dotent
 on:
   push:
     branches: ["main"]
