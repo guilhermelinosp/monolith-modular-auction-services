@@ -1,4 +1,4 @@
-name: .NET Dependency CI
+name: dotnet
 on:
   pull_request:
     branches: ["main"]
