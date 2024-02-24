@@ -44,7 +44,7 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           context: .
-          file: ./Source/auction.${{ matrix.service }}.API/Dockerfile
+          file: ./Source/Auction.${{ matrix.service }}.API/Dockerfile
           push: true
           tags: |
             ghcr.io/${{ github.actor }}/auction.${{ steps.set_service_lowercase.outputs.service_lowercase }}.api:latest
