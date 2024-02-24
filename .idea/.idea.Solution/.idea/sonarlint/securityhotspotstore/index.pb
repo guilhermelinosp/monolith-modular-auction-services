@@ -13,3 +13,5 @@ d
 4Authentication/Auction.Authentication.API/Program.cs,9/5/959650b38170b8cfbd4ce1451b523183097f2005
 u
 EAuthentication/Auction.Authentication.API/appsettings.Production.json,2/3/23101865a43d4ea94cdfc30b9d3eba4a906c359c
+<
+Solution.sln,2/4/2446bbe5246aa6980675e05e3b44438248e8c4a9

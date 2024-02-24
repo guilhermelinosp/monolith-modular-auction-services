@@ -5,13 +5,15 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Domain", "Authentication\Auction.Authentication.Domain\Auction.Authentication.Domain.csproj", "{5B38515A-ECA2-4740-9C21-8DB500DF7B1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Domain", "Source\Authentication\Auction.Authentication.Domain\Auction.Authentication.Domain.csproj", "{5B38515A-ECA2-4740-9C21-8DB500DF7B1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Application", "Authentication\Auction.Authentication.Application\Auction.Authentication.Application.csproj", "{85A41020-0992-4D7F-BF5A-D93E899D1DA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Application", "Source\Authentication\Auction.Authentication.Application\Auction.Authentication.Application.csproj", "{85A41020-0992-4D7F-BF5A-D93E899D1DA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Infrastructure", "Authentication\Auction.Authentication.Infrastructure\Auction.Authentication.Infrastructure.csproj", "{12477838-6DC5-4D2E-8931-3587CC43C9D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Infrastructure", "Source\Authentication\Auction.Authentication.Infrastructure\Auction.Authentication.Infrastructure.csproj", "{12477838-6DC5-4D2E-8931-3587CC43C9D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.API", "Authentication\Auction.Authentication.API\Auction.Authentication.API.csproj", "{ADDDC26D-7FA1-4FA2-9A63-02ACEFA314E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.API", "Source\Authentication\Auction.Authentication.API\Auction.Authentication.API.csproj", "{ADDDC26D-7FA1-4FA2-9A63-02ACEFA314E3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{B0D2A43F-A019-42BD-ACCD-A4B58BD57716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +28,7 @@ Global
 		{85A41020-0992-4D7F-BF5A-D93E899D1DA0} = {AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}
 		{12477838-6DC5-4D2E-8931-3587CC43C9D9} = {AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}
 		{ADDDC26D-7FA1-4FA2-9A63-02ACEFA314E3} = {AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}
+		{AFADDA8A-B972-4536-B7EF-5A6B2E3440D5} = {B0D2A43F-A019-42BD-ACCD-A4B58BD57716}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5B38515A-ECA2-4740-9C21-8DB500DF7B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
