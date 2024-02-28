@@ -1,25 +1,28 @@
+using Auction.Authentication.API.Filters;
 using Auction.Authentication.API.Services;
 using Auction.Authentication.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// Configure services
-builder.Services.AddApplication(configuration);
-builder.Services.AddSwagger();
-builder.Services.AddVersioning();
-builder.Services.AddControllers();
+await builder.Services.AddApplicationInjection(configuration);
+builder.Services.AddSwaggerServ();
+builder.Services.AddCorsServ();
+builder.Services.AddVersioningServ();
+builder.Services.AddRoutingServ();
+builder.Services.AddAuthenticationServ(configuration);
+builder.Services.AddControllers(options => { options.Filters.AddService<ExceptionFilter>(); });
+builder.Services.AddScoped<ExceptionFilter>();
+
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI(c =>
-	{
-		c.SwaggerEndpoint("/swagger/v1/swagger.json", "API");
-	});
+	app.UseSwaggerDoc();
+	app.UseDeveloperExceptionPage();
+	configuration.AddUserSecrets<Program>();
 }
 else
 {
@@ -27,8 +30,19 @@ else
 	app.UseHsts();
 }
 
+app.UseCors(builder =>
+{
+	builder
+		.AllowAnyOrigin()
+		.AllowAnyMethod()
+		.AllowAnyHeader();
+});
+
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseApiVersioning();
 app.UseAuthorization();
 app.MapControllers();
 

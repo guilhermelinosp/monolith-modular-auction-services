@@ -4,7 +4,7 @@ namespace Auction.Authentication.API.Services;
 
 public static class VersioningService
 {
-	public static void AddVersioning(this IServiceCollection services)
+	public static void AddVersioningServ(this IServiceCollection services)
 	{
 		services.AddApiVersioning(options =>
 		{
@@ -16,7 +16,5 @@ public static class VersioningService
 			options.GroupNameFormat = "'v'VVV";
 			options.SubstituteApiVersionInUrl = true;
 		});
-		
-		
 	}
 }

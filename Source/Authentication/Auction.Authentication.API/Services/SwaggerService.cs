@@ -1,12 +1,29 @@
+using Microsoft.OpenApi.Models;
+
 namespace Auction.Authentication.API.Services;
 
 public static class SwaggerService
 {
-	public static void AddSwagger(this IServiceCollection services)
+	public static void AddSwaggerServ(this IServiceCollection services)
 	{
-		services.AddSwaggerGen(c =>
+		services.AddSwaggerGen(options =>
 		{
-			c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "My API", Version = "v1" });
+			options.SwaggerDoc("v1", new OpenApiInfo { Title = "Documentation", Version = "v1" });
+		});
+	}
+	
+	public static void UseSwaggerDoc(this IApplicationBuilder app)
+	{
+		app.UseSwagger(c =>
+		{
+			c.SerializeAsV2 = true;
+			c.RouteTemplate = "swagger/{documentName}/swagger.json";
+		});
+		
+		app.UseSwaggerUI(options =>
+		{
+			options.SwaggerEndpoint("/swagger/v1/swagger.json", "Documentation");
+			options.DocumentTitle = "Documentation";
 		});
 	}
 }

@@ -25,6 +25,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.API"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{B0D2A43F-A019-42BD-ACCD-A4B58BD57716}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microservices", "Microservices", "{9445B645-B272-4223-86EA-22139B57E2A8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "consumer-notification-amtp", "consumer-notification-amtp", "{201A1C89-0253-4FAF-8D3B-9123D0D5B44D}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Microservices\consumer-notification-amtp\go.mod = Source\Microservices\consumer-notification-amtp\go.mod
+		Source\Microservices\consumer-notification-amtp\go.sum = Source\Microservices\consumer-notification-amtp\go.sum
+		Source\Microservices\consumer-notification-amtp\main.go = Source\Microservices\consumer-notification-amtp\main.go
+		Source\Microservices\consumer-notification-amtp\.env = Source\Microservices\consumer-notification-amtp\.env
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +49,8 @@ Global
 		{12477838-6DC5-4D2E-8931-3587CC43C9D9} = {AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}
 		{ADDDC26D-7FA1-4FA2-9A63-02ACEFA314E3} = {AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}
 		{AFADDA8A-B972-4536-B7EF-5A6B2E3440D5} = {B0D2A43F-A019-42BD-ACCD-A4B58BD57716}
+		{9445B645-B272-4223-86EA-22139B57E2A8} = {B0D2A43F-A019-42BD-ACCD-A4B58BD57716}
+		{201A1C89-0253-4FAF-8D3B-9123D0D5B44D} = {9445B645-B272-4223-86EA-22139B57E2A8}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5B38515A-ECA2-4740-9C21-8DB500DF7B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
