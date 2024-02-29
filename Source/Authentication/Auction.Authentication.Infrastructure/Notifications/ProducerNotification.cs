@@ -12,6 +12,7 @@ public class ProducerNotification : IProducerNotification
 {
 	private static IConfiguration _configuration;
 	private readonly IModel _channel;
+
 	private readonly Lazy<IConnection> _lazyConnection = new(() =>
 	{
 		var factory = new ConnectionFactory
@@ -29,11 +30,11 @@ public class ProducerNotification : IProducerNotification
 	{
 		_configuration = configuration;
 		_channel = _lazyConnection.Value.CreateModel();
-		_channel.QueueDeclare(queue: _configuration["RabbitMQ:QueueName"]!,
-			durable: false,
-			exclusive: false,
-			autoDelete: false,
-			arguments: null);
+		_channel.QueueDeclare(_configuration["RabbitMQ:QueueName"]!,
+			false,
+			false,
+			false,
+			null);
 	}
 
 	public void SendMessageAsync(NotificaitonModel message)
@@ -42,10 +43,10 @@ public class ProducerNotification : IProducerNotification
 		{
 			var json = JsonConvert.SerializeObject(message);
 			var body = Encoding.UTF8.GetBytes(json);
-			_channel.BasicPublish(exchange: "",
-				routingKey: _configuration["RabbitMQ:QueueName"]!,
-				basicProperties: null,
-				body: body);
+			_channel.BasicPublish("",
+				_configuration["RabbitMQ:QueueName"]!,
+				null,
+				body);
 		}
 		catch
 		{

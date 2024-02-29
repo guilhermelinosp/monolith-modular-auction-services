@@ -3,9 +3,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using Auction.Authentication.Domain.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Serilog;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 
@@ -70,14 +72,21 @@ public class Tokenization(IConfiguration configuration) : ITokenization
 		}
 	}
 
-	public string GenerateRefreshToken()
+	private readonly Dictionary<string, RefreshTokenModel> _otpCacheRefreshToken = new();
+
+	public string GenerateRefreshToken(string key)
 	{
 		try
 		{
 			var salt = new byte[32];
 			using var random = RandomNumberGenerator.Create();
 			random.GetBytes(salt);
-			return Convert.ToBase64String(salt);
+			var refreshToken = Convert.ToBase64String(salt);
+			var expiry = DateTime.UtcNow.Add(TimeSpan.Parse(configuration["Jwt:Expiry"]!, CultureInfo.CurrentCulture));
+
+			_otpCacheRefreshToken[key] = new RefreshTokenModel(refreshToken, expiry);
+
+			return refreshToken;
 		}
 		catch (Exception e)
 		{
@@ -85,16 +94,23 @@ public class Tokenization(IConfiguration configuration) : ITokenization
 			throw;
 		}
 	}
-	
-	public string GenerateOneTimeToken()
+
+	public bool VerifyRefreshToken(string key, string token)
 	{
 		try
 		{
-			return new Random().Next(100000, 1000000).ToString("D6");
+			if (!_otpCacheRefreshToken.TryGetValue(key, out var model))
+				return false;
+
+			if (model.Token != token || model.Expiry < DateTimeOffset.UtcNow)
+				return false;
+
+			_otpCacheRefreshToken.Remove(key);
+			return true;
 		}
 		catch (Exception e)
 		{
-			Log.Error(e, "An error occurred while executing GenerateOneTimeToken");
+			Log.Error(e, "An error occurred while executing VerifyRefreshToken");
 			throw;
 		}
 	}

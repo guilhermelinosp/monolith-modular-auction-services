@@ -8,11 +8,11 @@ namespace Auction.Authentication.Infrastructure.Repositories;
 
 public class AccountRepository(AuthenticationDbContext context) : IAccountRepository
 {
-	public async Task<Account?> FindByIdAsync(Guid accountId)
+	public async Task<Account?> FindByIdAsync(string accountId)
 	{
 		try
 		{
-			return await context.Accounts!.AsNoTracking().FirstOrDefaultAsync(a => a.Id == accountId);
+			return await context.Accounts!.AsNoTracking().FirstOrDefaultAsync(a => a.Id == new Guid(accountId));
 		}
 		catch (Exception e)
 		{
@@ -25,7 +25,7 @@ public class AccountRepository(AuthenticationDbContext context) : IAccountReposi
 	{
 		try
 		{
-			return  await context.Accounts!.AsNoTracking().FirstOrDefaultAsync(a => a.Email == email);
+			return await context.Accounts!.AsNoTracking().FirstOrDefaultAsync(a => a.Email == email);
 		}
 		catch (Exception e)
 		{
@@ -61,7 +61,7 @@ public class AccountRepository(AuthenticationDbContext context) : IAccountReposi
 			throw;
 		}
 	}
-	
+
 	private async Task SaveChangesAsync()
 	{
 		try

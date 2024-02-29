@@ -7,22 +7,22 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper" Version="13.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.1" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2"/>
         <PackageReference Include="FluentValidation" Version="11.9.0"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Auction.Authentication.Domain\Auction.Authentication.Domain.csproj" />
-      <ProjectReference Include="..\Auction.Authentication.Infrastructure\Auction.Authentication.Infrastructure.csproj" />
+        <ProjectReference Include="..\Auction.Authentication.Domain\Auction.Authentication.Domain.csproj"/>
+        <ProjectReference Include="..\Auction.Authentication.Infrastructure\Auction.Authentication.Infrastructure.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Serilog">
-        <HintPath>..\..\..\..\..\..\.nuget\packages\serilog\3.1.1\lib\net7.0\Serilog.dll</HintPath>
-      </Reference>
+        <Reference Include="Serilog">
+            <HintPath>..\..\..\..\..\..\.nuget\packages\serilog\3.1.1\lib\net7.0\Serilog.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

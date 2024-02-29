@@ -5,6 +5,7 @@ using Auction.Authentication.Domain.DTOs.Requests;
 using Auction.Authentication.Domain.DTOs.Responses;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using LoginRequest = Auction.Authentication.Domain.DTOs.Requests.LoginRequest;
 
 namespace Auction.Authentication.API.Controllers;
 
@@ -12,31 +13,50 @@ namespace Auction.Authentication.API.Controllers;
 [Route("api/auth/v{version:apiVersion}")]
 [ApiVersion("1.0")]
 [Produces("application/json")]
+[ProducesResponseType<BaseActionResult>(StatusCodes.Status200OK)]
 public class AuthenticationController(
-	ILoginUseCaseImp login,
-	IVerifyEmailUseCaseImp verify,
-	IRegisterUseCaseImp register) : Controller
+	ISignInUseCase signIn,
+	IConfirmUseCaseImp confirm,
+	IForgotPassUseCaseImp forgot,
+	IResetPassUseCase reset,
+	ISignUpUseCase signUp) : Controller
 {
-	[HttpPost("login")]
-	[ProducesResponseType<BaseActionResult<TokenResponse>>(StatusCodes.Status200OK)]
-	public async Task<BaseActionResult<TokenResponse>> Login([FromBody] LoginRequest request)
+	[HttpPost("signup")]
+	public async Task<BaseActionResult> SignUp([FromBody] RegisterRequest request)
 	{
-		var response = await login.ExecuteAsync(request);
+		var response = await signUp.ExecuteAsync(request);
+
+		return !response.Success
+			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
+			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+	}
+
+	[HttpPost("signout")]
+	public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
+	{
+		return Ok();
+	}
+
+	[HttpPost("signin")]
+	public async Task<BaseActionResult> SignIn([FromBody] LoginRequest request)
+	{
+		var response = await signIn.ExecuteAsync(request);
+
+		return !response.Success
+			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
+			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+	}
+
+	[HttpPost("signin/{accountId}/{otp}")]
+	[ProducesResponseType<BaseActionResult<TokenResponse>>(StatusCodes.Status200OK)]
+	public async Task<BaseActionResult<TokenResponse>> ConfirmSignIn([FromRoute] string accountId,
+		[FromRoute] string otp)
+	{
+		var response = await confirm.ConfirmSignInAsync(accountId, otp);
 
 		return !response.Success
 			? new BaseActionResult<TokenResponse>(HttpStatusCode.BadRequest, null, response.Error)
 			: new BaseActionResult<TokenResponse>(HttpStatusCode.OK, response.Data, null);
-	}
-
-	[HttpPost("register")]
-	[ProducesResponseType<BaseActionResult<DefaultResponse>>(StatusCodes.Status200OK)]
-	public async Task<BaseActionResult<DefaultResponse>> Register([FromBody] RegisterRequest request)
-	{
-		var response = await register.ExecuteAsync(request);
-
-		return !response.Success
-			? new BaseActionResult<DefaultResponse>(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult<DefaultResponse>(HttpStatusCode.OK, response.Data, null);
 	}
 
 	[HttpPost("refresh")]
@@ -45,38 +65,34 @@ public class AuthenticationController(
 		return Ok();
 	}
 
-	[HttpPost("logout")]
-	public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
-	{
-		return Ok();
-	}
-
 	[HttpPost("forgot-password")]
-	public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
+	public async Task<IActionResult> ForgotPassword([FromBody] ForgotPassRequest request)
 	{
-		return Ok();
-	}
-
-	[HttpPost("reset-password")]
-	public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
-	{
-		return Ok();
-	}
-
-	[HttpPost("verify-email")]
-	[ProducesResponseType<BaseActionResult<DefaultResponse>>(StatusCodes.Status200OK)]
-	public async Task<BaseActionResult<DefaultResponse>> VerifyEmail([FromBody] VerifyEmailRequest request)
-	{
-		var response = await verify.ExecuteAsync(request);
+		var response = await forgot.ExecuteAsync(request);
 
 		return !response.Success
-			? new BaseActionResult<DefaultResponse>(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult<DefaultResponse>(HttpStatusCode.OK, response.Data, null);
+			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
+			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
 	}
 
-	[HttpPost("confirm-email")]
-	public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailRequest request)
+	[HttpPost("reset-password/{accountId}/{otp}")]
+	public async Task<IActionResult> ResetPassword([FromBody] ResetPassRequest request, [FromRoute] string accountId,
+		[FromRoute] string otp)
 	{
-		return Ok();
+		var response = await reset.ExecuteAsync(request, accountId, otp);
+
+		return !response.Success
+			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
+			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+	}
+
+	[HttpPost("confirm-email/{accountId}/{otp}")]
+	public async Task<IActionResult> ConfirmEmail([FromRoute] string accountId, [FromRoute] string otp)
+	{
+		var response = await confirm.ConfirmEmailAsync(accountId, otp);
+
+		return !response.Success
+			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
+			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
 	}
 }

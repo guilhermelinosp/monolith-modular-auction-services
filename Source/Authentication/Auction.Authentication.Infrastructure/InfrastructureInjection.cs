@@ -13,25 +13,25 @@ namespace Auction.Authentication.Infrastructure;
 public static class InfrastructureInjection
 {
 	public static async Task AddInfrastructureInjection(this IServiceCollection services, IConfiguration configuration)
-    {
-	    await AuthenticationDbContextFactory.CreateAsync(configuration["ConnectionStrings:MySql"]!);
+	{
+		await AuthenticationDbContextFactory.CreateAsync(configuration["ConnectionStrings:MySql"]!);
 
-        services.AddContexts(configuration);
-        services.AddRepositories();
-        services.AddNotifications();
-    }
-	
+		services.AddContexts(configuration);
+		services.AddRepositories();
+		services.AddNotifications();
+	}
+
 	private static void AddContexts(this IServiceCollection services, IConfiguration configuration)
-	{	
+	{
 		services.AddDbContext<AuthenticationDbContext>(options =>
 			options.UseMySQL(configuration["ConnectionStrings:MySql"]!));
 	}
-	 
+
 	private static void AddRepositories(this IServiceCollection services)
 	{
 		services.AddScoped<IAccountRepository, AccountRepository>();
 	}
-	
+
 	private static void AddNotifications(this IServiceCollection services)
 	{
 		services.AddSingleton<IProducerNotification, ProducerNotification>();
