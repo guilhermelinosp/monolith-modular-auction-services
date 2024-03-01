@@ -31,5 +31,11 @@
         <ProjectReference Include="..\Auction.Authentication.Application\Auction.Authentication.Application.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
 
 </Project>
