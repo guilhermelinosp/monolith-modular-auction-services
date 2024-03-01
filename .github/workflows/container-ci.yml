@@ -46,5 +46,4 @@ jobs:
           file: ./Source/${{ matrix.service }}/Auction.${{ matrix.service }}.API/dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.actor }}/${{ steps.set_service_lowercase.outputs.service_lowercase }}-api:latest
-            ///docker.io/${{ github.actor }}/auction-${{ steps.set_service_lowercase.outputs.service_lowercase }}-api:latest
+            ghcr.io/${{ github.actor }}/auction-${{ steps.set_service_lowercase.outputs.service_lowercase }}-api:latest
