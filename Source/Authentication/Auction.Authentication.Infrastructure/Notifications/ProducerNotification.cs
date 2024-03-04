@@ -10,14 +10,14 @@ namespace Auction.Authentication.Infrastructure.Notifications;
 
 public class ProducerNotification : IProducerNotification
 {
-	private static IConfiguration _configuration;
+	private static IConfiguration? _configuration;
 	private readonly IModel _channel;
 
 	private readonly Lazy<IConnection> _lazyConnection = new(() =>
 	{
 		var factory = new ConnectionFactory
 		{
-			HostName = _configuration["RabbitMq:Host"],
+			HostName = _configuration!["RabbitMq:Host"],
 			Port = int.Parse(_configuration["RabbitMq:Port"]!),
 			UserName = _configuration["RabbitMq:Username"],
 			Password = _configuration["RabbitMq:Password"]
@@ -30,7 +30,7 @@ public class ProducerNotification : IProducerNotification
 	{
 		_configuration = configuration;
 		_channel = _lazyConnection.Value.CreateModel();
-		_channel.QueueDeclare(_configuration["RabbitMQ:QueueName"]!,
+		_channel.QueueDeclare(_configuration!["RabbitMQ:QueueName"]!,
 			false,
 			false,
 			false,
@@ -44,7 +44,7 @@ public class ProducerNotification : IProducerNotification
 			var json = JsonConvert.SerializeObject(message);
 			var body = Encoding.UTF8.GetBytes(json);
 			_channel.BasicPublish("",
-				_configuration["RabbitMQ:QueueName"]!,
+				_configuration!["RabbitMQ:QueueName"]!,
 				null,
 				body);
 		}

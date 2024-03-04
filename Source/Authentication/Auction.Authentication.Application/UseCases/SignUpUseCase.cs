@@ -1,3 +1,4 @@
+using System.Net;
 using Auction.Authentication.Application.UseCases.Implementations;
 using Auction.Authentication.Application.UseCases.Validators;
 using Auction.Authentication.Domain.DTOs.Abstracts;
@@ -29,13 +30,13 @@ public class SignUpUseCase(
 			var requestValidation = await validator.ValidateAsync(request);
 			if (!requestValidation.IsValid)
 				return new BaseActionResponse(
-					false,
+					HttpStatusCode.BadRequest,
 					null,
 					requestValidation.Errors.Select(er => er.ErrorMessage).ToList());
 
 			if (await repository.FindByEmailAsync(request.Email) != null)
 				return new BaseActionResponse(
-					false,
+					HttpStatusCode.BadRequest,
 					null,
 					new List<string> { DefaultMessage.ACCOUNT_ALREADY_EXISTS });
 
@@ -47,14 +48,9 @@ public class SignUpUseCase(
 
 			await repository.CreateAsync(account);
 
-			var code = oneTimePass.GenerateOtp(account.Id.ToString());
-
-			producerNotification.SendMessageAsync(new NotificaitonModel(account.Email, "otp active account code",
-				$"your otp code is: {code}"));
-
 			return new BaseActionResponse(
-				true,
-				new DefaultResponse(account.Id.ToString(), DefaultMessage.SEND_CONFIRMATION_CODE!),
+				HttpStatusCode.Created,
+				new DefaultResponse(account.Id.ToString(), DefaultMessage.ACCOUNT_CREATED),
 				null);
 		}
 		catch (Exception e)

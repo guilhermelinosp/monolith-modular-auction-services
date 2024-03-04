@@ -34,13 +34,12 @@ public static class ApplicationInjection
 	{
 		services.AddScoped<ISignUpUseCase, SignUpUseCase>();
 		services.AddScoped<ISignInUseCase, SignInUseCase>();
-		services.AddScoped<IConfirmUseCaseImp, ConfirmUseCase>();
 		services.AddScoped<IForgotPassUseCaseImp, ForgotPassUseCase>();
 		services.AddScoped<IResetPassUseCase, ResetPassUseCase>();
 
 		services.AddScoped<SignInValidator>();
 		services.AddScoped<SignUpValidator>();
-	services.AddScoped<ForgotPassValidator>();
+		services.AddScoped<ForgotPassValidator>();
 		services.AddScoped<ResetPassValidator>();
 	}
 }

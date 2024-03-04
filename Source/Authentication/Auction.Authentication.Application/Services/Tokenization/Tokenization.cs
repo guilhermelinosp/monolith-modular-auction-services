@@ -5,11 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using Auction.Authentication.Domain.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
 using Serilog;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace Auction.Authentication.Application.Services.Tokenization;
 
@@ -43,7 +40,7 @@ public class Tokenization(IConfiguration configuration) : ITokenization
 	}
 
 
-	public string GenerateToken(string id)
+	public string GenerateToken(string id, int role)
 	{
 		try
 		{
@@ -53,7 +50,8 @@ public class Tokenization(IConfiguration configuration) : ITokenization
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-					new Claim("id", id)
+					new Claim("id", id),
+					new Claim("role", role.ToString("D1"))
 				}),
 				Expires = DateTime.UtcNow.Add(TimeSpan.Parse(configuration["Jwt:Expiry"]!, CultureInfo.CurrentCulture)),
 				SigningCredentials = new SigningCredentials(

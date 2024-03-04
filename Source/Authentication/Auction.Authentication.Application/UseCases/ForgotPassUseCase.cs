@@ -1,3 +1,4 @@
+using System.Net;
 using Auction.Authentication.Application.Services.OneTimePass;
 using Auction.Authentication.Application.UseCases.Implementations;
 using Auction.Authentication.Application.UseCases.Validators;
@@ -25,14 +26,14 @@ public class ForgotPassUseCase(
 			var requestValidation = await validator.ValidateAsync(request);
 			if (!requestValidation.IsValid)
 				return new BaseActionResponse(
-					false,
+					HttpStatusCode.BadRequest,
 					null,
 					requestValidation.Errors.Select(er => er.ErrorMessage).ToList());
 
 			var account = await repository.FindByEmailAsync(request.Email);
 			if (account == null)
 				return new BaseActionResponse(
-					false,
+					HttpStatusCode.NotFound,
 					null,
 					new List<string> { DefaultMessage.ACCOUNT_NOT_FOUND });
 
@@ -43,7 +44,7 @@ public class ForgotPassUseCase(
 
 
 			return new BaseActionResponse(
-				true,
+				HttpStatusCode.Accepted,
 				new DefaultResponse(account.Id.ToString(), DefaultMessage.SEND_CONFIRMATION_CODE!),
 				null);
 		}

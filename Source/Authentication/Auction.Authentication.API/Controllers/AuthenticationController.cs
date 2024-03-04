@@ -16,7 +16,6 @@ namespace Auction.Authentication.API.Controllers;
 [ProducesResponseType<BaseActionResult>(StatusCodes.Status200OK)]
 public class AuthenticationController(
 	ISignInUseCase signIn,
-	IConfirmUseCaseImp confirm,
 	IForgotPassUseCaseImp forgot,
 	IResetPassUseCase reset,
 	ISignUpUseCase signUp) : Controller
@@ -26,9 +25,9 @@ public class AuthenticationController(
 	{
 		var response = await signUp.ExecuteAsync(request);
 
-		return !response.Success
-			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+		return (int)response.Status > 208
+			? new BaseActionResult(response.Status, null, response.Error)
+			: new BaseActionResult(response.Status, response.Data, null);
 	}
 
 	[HttpPost("signout")]
@@ -42,9 +41,9 @@ public class AuthenticationController(
 	{
 		var response = await signIn.ExecuteAsync(request);
 
-		return !response.Success
-			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+		return (int)response.Status > 208
+			? new BaseActionResult(response.Status, null, response.Error)
+			: new BaseActionResult(response.Status, response.Data, null);
 	}
 
 	[HttpPost("signin/{accountId}/{otp}")]
@@ -52,11 +51,9 @@ public class AuthenticationController(
 	public async Task<BaseActionResult<TokenResponse>> ConfirmSignIn([FromRoute] string accountId,
 		[FromRoute] string otp)
 	{
-		var response = await confirm.ConfirmSignInAsync(accountId, otp);
+		var response = await signIn.ConfirmSignInAsync(accountId, otp);
 
-		return !response.Success
-			? new BaseActionResult<TokenResponse>(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult<TokenResponse>(HttpStatusCode.OK, response.Data, null);
+		return new BaseActionResult<TokenResponse>(response.Status, response.Data, null);
 	}
 
 	[HttpPost("refresh")]
@@ -70,9 +67,9 @@ public class AuthenticationController(
 	{
 		var response = await forgot.ExecuteAsync(request);
 
-		return !response.Success
-			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+		return (int)response.Status > 208
+			? new BaseActionResult(response.Status, null, response.Error)
+			: new BaseActionResult(response.Status, response.Data, null);
 	}
 
 	[HttpPost("reset-password/{accountId}/{otp}")]
@@ -81,18 +78,8 @@ public class AuthenticationController(
 	{
 		var response = await reset.ExecuteAsync(request, accountId, otp);
 
-		return !response.Success
-			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
-	}
-
-	[HttpPost("confirm-email/{accountId}/{otp}")]
-	public async Task<IActionResult> ConfirmEmail([FromRoute] string accountId, [FromRoute] string otp)
-	{
-		var response = await confirm.ConfirmEmailAsync(accountId, otp);
-
-		return !response.Success
-			? new BaseActionResult(HttpStatusCode.BadRequest, null, response.Error)
-			: new BaseActionResult(HttpStatusCode.OK, response.Data, null);
+		return (int)response.Status > 208
+			? new BaseActionResult(response.Status, null, response.Error)
+			: new BaseActionResult(response.Status, response.Data, null);
 	}
 }

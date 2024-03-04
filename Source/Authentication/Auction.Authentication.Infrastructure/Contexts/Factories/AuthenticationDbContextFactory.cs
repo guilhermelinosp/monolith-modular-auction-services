@@ -10,8 +10,7 @@ public static class AuthenticationDbContextFactory
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<AuthenticationDbContext>();
 			optionsBuilder.UseMySQL(connectionString);
-			await using var authenticationDbContext = new AuthenticationDbContext(optionsBuilder.Options);
-			await authenticationDbContext.Database.EnsureCreatedAsync();
+			await using var authenticationDbContext = new AuthenticationDbContext(optionsBuilder.Options); await authenticationDbContext.Database.EnsureCreatedAsync();
 		}
 		catch (Exception ex)
 		{

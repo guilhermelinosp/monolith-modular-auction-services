@@ -1,3 +1,4 @@
+using System.Net;
 using Auction.Authentication.Application.Services.Cryptography;
 using Auction.Authentication.Application.Services.OneTimePass;
 using Auction.Authentication.Application.UseCases.Implementations;
@@ -24,7 +25,7 @@ public class ResetPassUseCase(
 		{
 			if (!oneTimePass.VerifyOtp(accountId, otp))
 				return new BaseActionResponse(
-					false,
+					HttpStatusCode.BadRequest,
 					null,
 					new List<string> { DefaultMessage.OTP_NOT_VALID }
 				);
@@ -32,24 +33,19 @@ public class ResetPassUseCase(
 			var requestValidation = await validator.ValidateAsync(request);
 			if (!requestValidation.IsValid)
 				return new BaseActionResponse(
-					false,
+					HttpStatusCode.BadRequest,
 					null,
 					requestValidation.Errors.Select(er => er.ErrorMessage).ToList());
 
 			var account = await repository.FindByIdAsync(accountId);
-			if (account == null)
-				return new BaseActionResponse(
-					false,
-					null,
-					new List<string> { DefaultMessage.ACCOUNT_NOT_FOUND });
 
-			account.Password = cryptography.EncryptPassword(request.Password);
+			account!.Password = cryptography.EncryptPassword(request.Password);
 			account.UpdatedAt = DateTime.UtcNow;
 
 			await repository.UpdateAsync(account);
 
 			return new BaseActionResponse(
-				true,
+				HttpStatusCode.OK,
 				new DefaultResponse(account.Id.ToString(), DefaultMessage.PASSWORD_CHANGED!),
 				null);
 		}
