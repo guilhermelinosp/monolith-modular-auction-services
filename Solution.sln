@@ -3,27 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentication", "{AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "auction.services.authentications", "auction.services.authentications", "{AFADDA8A-B972-4536-B7EF-5A6B2E3440D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Domain", "Source\Authentication\Auction.Authentication.Domain\Auction.Authentication.Domain.csproj", "{5B38515A-ECA2-4740-9C21-8DB500DF7B1B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "auction.services.authentications.domain", "source\auction-services-authentications\auction.services.authentications.domain\auction.services.authentications.domain.csproj", "{5B38515A-ECA2-4740-9C21-8DB500DF7B1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Application", "Source\Authentication\Auction.Authentication.Application\Auction.Authentication.Application.csproj", "{85A41020-0992-4D7F-BF5A-D93E899D1DA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "auction.services.authentications.application", "source\auction-services-authentications\auction.services.authentications.application\auction.services.authentications.application.csproj", "{85A41020-0992-4D7F-BF5A-D93E899D1DA0}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5B38515A-ECA2-4740-9C21-8DB500DF7B1B} = {5B38515A-ECA2-4740-9C21-8DB500DF7B1B}
 		{12477838-6DC5-4D2E-8931-3587CC43C9D9} = {12477838-6DC5-4D2E-8931-3587CC43C9D9}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.Infrastructure", "Source\Authentication\Auction.Authentication.Infrastructure\Auction.Authentication.Infrastructure.csproj", "{12477838-6DC5-4D2E-8931-3587CC43C9D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "auction.services.authentications.infrastructure", "source\auction-services-authentications\auction.services.authentications.infrastructure\auction.services.authentications.infrastructure.csproj", "{12477838-6DC5-4D2E-8931-3587CC43C9D9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{5B38515A-ECA2-4740-9C21-8DB500DF7B1B} = {5B38515A-ECA2-4740-9C21-8DB500DF7B1B}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auction.Authentication.API", "Source\Authentication\Auction.Authentication.API\Auction.Authentication.API.csproj", "{ADDDC26D-7FA1-4FA2-9A63-02ACEFA314E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "auction.services.authentications.api", "source\auction-services-authentications\auction.services.authentications.api\auction.services.authentications.api.csproj", "{ADDDC26D-7FA1-4FA2-9A63-02ACEFA314E3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{85A41020-0992-4D7F-BF5A-D93E899D1DA0} = {85A41020-0992-4D7F-BF5A-D93E899D1DA0}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{B0D2A43F-A019-42BD-ACCD-A4B58BD57716}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{B0D2A43F-A019-42BD-ACCD-A4B58BD57716}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
